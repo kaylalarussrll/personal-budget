@@ -1,13 +1,16 @@
 const express = require('express');
 const app = express();
+//const { Client } = require('pg');
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-//get to post Hello World when page opens
-app.get('/', (req, res, next) => {
-    console.log('Hello, world!');
-    res.send('Hello, World!');
-});
+app.use(express.static('public'));
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+const envelopesRouter = require('./envelopes.js');
+app.use('envelopes', envelopesRouter);
 
 app.listen(PORT, () => {
     console.log(`Server is listening on ${PORT}`);
